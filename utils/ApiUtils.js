@@ -14,5 +14,4 @@ const IMDB_API_KEY = process.env.IMDB_API_KEY;
 export const searchImdb = (query) => {
     fetch(`${BASE_URL}/Search/${IMDB_API_KEY}/${query}`)
         .then(res => res.json())
-        .then(data => console.log(data));
 };
