@@ -16,7 +16,6 @@ export const ListLayout = () => {
             fetch(`${BASE_URL}/Search/${IMDB_API_KEY}/${query}`)
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json);
                     setData(json.results);
                     setLoading(false);
                 })
@@ -31,7 +30,7 @@ export const ListLayout = () => {
     );
 
     useEffect(() => {
-        listFunction();
+        // listFunction();
     }, []);
 
     return (

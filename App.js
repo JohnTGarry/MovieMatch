@@ -1,15 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ListLayout from './layouts/ListLayout';
 import { searchImdb } from './utils/ApiUtils';
+import SearchBar from './widgets/SearchBar';
 
 export default function App() {
-  // searchImdb('lost 2004');
-
   return (
     <View style={styles.container}>
-      <ListLayout />
+      <Text style={styles.header}>MovieMatch</Text>
+      <SearchBar />
     </View>
   );
 }
@@ -17,8 +16,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
+  },
+  header: {
+    flex: 1,
+    color: 'white',
+    backgroundColor: 'blue',
+    textAlign: 'center',
+  },
+  searchBar: {
+    flex: 10,
   },
 });
