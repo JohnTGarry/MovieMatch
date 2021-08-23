@@ -1,4 +1,4 @@
-const BASE_URL = 'https://imdb-api.com/API';
+const BASE_URL = "https://imdb-api.com/API";
 const IMDB_API_KEY = process.env.IMDB_API_KEY;
 
 // errorMessage: ""
@@ -12,6 +12,7 @@ const IMDB_API_KEY = process.env.IMDB_API_KEY;
 // title: "Lost"
 
 export const searchImdb = (query) => {
-    fetch(`${BASE_URL}/Search/${IMDB_API_KEY}/${query}`)
-        .then(res => res.json())
+  return fetch(`${BASE_URL}/Search/${IMDB_API_KEY}/${query}`).then((res) =>
+    res.json()
+  );
 };

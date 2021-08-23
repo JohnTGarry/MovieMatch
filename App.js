@@ -7,8 +7,9 @@ import SearchBar from './widgets/SearchBar';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>MovieMatch</Text>
-      <SearchBar />
+      {/* <Text style={styles.header}>MovieMatch</Text>
+      <SearchBar /> */}
+      <ListLayout />
     </View>
   );
 }
