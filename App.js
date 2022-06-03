@@ -1,34 +1,50 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import ListLayout from './layouts/ListLayout';
-import { searchImdb } from './utils/ApiUtils';
-import SearchBar from './widgets/SearchBar';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import Banner from './Banner';
+import MainContainer from './MainContainer';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      {/* <Text style={styles.header}>MovieMatch</Text>
-      <SearchBar /> */}
-      <ListLayout />
-    </View>
-  );
+const bodyStyle = {
+  flexDirection: 'column',
+  flex: 1,
+};
+
+const bannerStyle = {
+  flex: 0.1,
+};
+
+const sideBySideContainerStyle = {
+  flex: 0.9,
+};
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActorMatch: false,
+    };
+  }
+
+  onActorMatchChange = isActorMatch => {
+    this.setState({
+      isActorMatch: isActorMatch,
+    });
+  };
+
+  render() {
+    return (
+      <View style={bodyStyle}>
+        <Banner
+          style={bannerStyle}
+          onActorMatchChange={this.onActorMatchChange}
+          isActorMatch={this.state.isActorMatch}
+        />
+        <MainContainer
+          style={sideBySideContainerStyle}
+          isActorMatch={this.state.isActorMatch}
+        />
+      </View>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-  header: {
-    flex: 1,
-    color: 'white',
-    backgroundColor: 'blue',
-    textAlign: 'center',
-  },
-  searchBar: {
-    flex: 10,
-  },
-});
+export default App;
