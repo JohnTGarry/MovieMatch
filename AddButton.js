@@ -1,43 +1,32 @@
-import React, { useEffect } from 'react';
-import { TextInput } from 'react-native';
-import { RED, WHITE } from './resources/colours';
+import React from "react";
+import { Pressable, Text } from "react-native";
+import { RED, WHITE } from "./resources/colours";
 
 const buttonStyle = {
-  borderRadius: 10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 70,
+  height: 70,
+  borderRadius: 100,
   backgroundColor: RED,
-  color: WHITE,
-  marginLeft: 10,
-  marginRight: 10,
   marginBottom: 5,
-  textAlign: 'center',
 };
 
-const AddButton = props => {
-  const { isActorMatch } = props;
+const textStyle = {
+  textAlign: "center",
+  color: WHITE,
+  fontSize: 35,
+};
 
-  const onSubmit = event => {
-    props.onSubmit(event.nativeEvent.text);
+const AddButton = (props) => {
+  const handlePress = () => {
+    props.onPress();
   };
-
-  const getInitialValue = () => {
-    return isActorMatch ? 'ADD NEW ACTOR' : 'ADD NEW MOVIE';
-  };
-
-  const [value, setValue] = React.useState(getInitialValue());
-
-  useEffect(() => {
-    setValue(isActorMatch ? 'ADD NEW ACTOR' : 'ADD NEW MOVIE');
-  }, [isActorMatch]);
 
   return (
-    <TextInput
-      style={buttonStyle}
-      onChangeText={text => setValue(text)}
-      onSubmitEditing={event => onSubmit(event)}
-      onFocus={() => setValue('')}
-      onBlur={() => setValue(getInitialValue())}
-      value={value}
-    />
+    <Pressable style={buttonStyle} onPress={handlePress}>
+      <Text style={textStyle}>+</Text>
+    </Pressable>
   );
 };
 
