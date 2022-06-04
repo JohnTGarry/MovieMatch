@@ -33,16 +33,16 @@ const ActorView = (props) => {
 
   const baseImageUrl = "https://image.tmdb.org/t/p/original";
   const defaultImagePath = "./resources/images/icons8-name-96.png";
-  const imageSource = imagePath
-    ? { uri: `${baseImageUrl}${imagePath}` }
-    : require(defaultImagePath);
-
+  // const imageSource = imagePath
+  //   ? { uri: `${baseImageUrl}${imagePath}` }
+  //   : require(defaultImagePath);
+ 
   return (
     <View style={viewStyle}>
-      <Image
+      {/* <Image
         style={imageStyle}
         source={imageSource}
-      />
+      /> */}
       <Text style={nameStyle}>{text}</Text>
     </View>
   );

@@ -24,7 +24,6 @@ const baseActorUrl = "https://api.themoviedb.org/3/person";
 const containerStyle = {
   flex: 10,
   backgroundColor: DARK_RED,
-  alignItems: "center",
 };
 
 const MainContainer = (props) => {
@@ -43,11 +42,16 @@ const MainContainer = (props) => {
   };
 
   const onNewQuery = (query) => {
+    setSearching(false);
     if (isActorMatch) {
       updateActors(query);
     } else {
       updateMovies(query);
     }
+  };
+
+  const handleSearchBarBlur = () => {
+    // setSearching(false);
   };
 
   const updateActors = (newActor) => {
@@ -131,7 +135,7 @@ const MainContainer = (props) => {
 
   return (
     <View style={containerStyle}>
-      {searching && <SearchBar onSubmit={onNewQuery} />}
+      {searching && <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />}
       {!searching && (
         <>
           <QueriesContainer queries={isActorMatch ? actors : movies} />

@@ -1,6 +1,5 @@
 import React from "react";
 import { TextInput } from "react-native";
-import { useEffect } from "react/cjs/react.production.min";
 
 const SearchBar = (props) => {
   const onSubmit = (event) => {
@@ -14,7 +13,7 @@ const SearchBar = (props) => {
       onChangeText={(text) => setValue(text)}
       onSubmitEditing={(event) => onSubmit(event)}
       onFocus={() => setValue("")}
-      onBlur={() => setValue("")}
+      onBlur={props.onBlur()}
       value={value}
       style={{ backgroundColor: "blue" }}
       autoFocus

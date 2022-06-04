@@ -1,10 +1,14 @@
 import React from "react";
-import { Pressable, Text } from "react-native";
+import { View, Pressable, Text } from "react-native";
 import { RED, WHITE } from "./resources/colours";
 
+const containerStyle = {
+  alignItems: "center",
+};
+
 const buttonStyle = {
-  alignItems: 'center',
-  justifyContent: 'center',
+  alignItems: "center",
+  justifyContent: "center",
   width: 70,
   height: 70,
   borderRadius: 100,
@@ -24,9 +28,11 @@ const AddButton = (props) => {
   };
 
   return (
-    <Pressable style={buttonStyle} onPress={handlePress}>
-      <Text style={textStyle}>+</Text>
-    </Pressable>
+    <View style={containerStyle}>
+      <Pressable style={buttonStyle} onPress={handlePress}>
+        <Text style={textStyle}>+</Text>
+      </Pressable>
+    </View>
   );
 };
 
