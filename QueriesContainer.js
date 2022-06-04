@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 import QueryPill from './QueryPill';
 
 const containerStyle = {
-  flex: 1,
+  // flex: 1,
 };
 
 const QueryContainer = props => {

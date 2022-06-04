@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 import ResultItem from "./ResultItem";
 
 const viewStyle = {
-  flex: 10,
+  // flex: 10,
 };
 
 const ResultsContainer = (props) => {
