@@ -1,62 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
-import QueriesContainer from "./QueriesContainer";
-import ResultsContainer from "./ResultsContainer";
-import AddButton from "./AddButton";
-import SearchBar from "./SearchBar";
-import { DARK_RED } from "./resources/colours";
-import {
-  getYearFromDate,
-  getCommonElements,
-  objectArrayToArrayOfValues,
-  arrayToArrayOfActorObjects,
-  arrayToArrayOfMovieObjects,
-  getCommonElementsAsObjects,
-} from "./ArrayUtil";
-import SearchResults from "./SearchResults";
+import { getYearFromDate, arrayToArrayOfMovieObjects } from './ArrayUtil';
 
 const API_KEY = process.env.API_KEY;
 const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`;
 const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`;
 const baseMovieUrl = "https://api.themoviedb.org/3/movie";
 const baseActorUrl = "https://api.themoviedb.org/3/person";
-// const actorImageUrl = 'https://api.themoviedb.org/3/person/500/images?api_key=5b6bf11e83f18b3b4b24822437a402ff'
 
-const containerStyle = {
-  flex: 10,
-  backgroundColor: DARK_RED,
-};
-
-const MainContainer = (props) => {
-  const { isActorMatch } = props;
-  const [actors, setActors] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [searching, setSearching] = useState(false);
-  const [movieQueryResponse, setMovieQueryResponse] = useState({});
-
-  useEffect(() => {
-    setActors([]);
-    setMovies([]);
-  }, [isActorMatch]);
-
-  const handleAddButtonPress = () => {
-    setSearching(true);
-  };
-
-  const onNewQuery = (query) => {
-    // setSearching(false);
-    if (isActorMatch) {
-      updateActors(query);
-    } else {
-      updateMovies(query);
-    }
-  };
-
-  const handleSearchBarBlur = () => {
-    // setSearching(false);
-  };
-
-  const updateActors = (newActor) => {
+const updateActors = (newActor) => {
     fetch(`${searchActorUrl}&query=${newActor.replace(" ", "+")}`)
       .then((res) => res.json())
       .then((queryResponse) => {
@@ -98,7 +48,6 @@ const MainContainer = (props) => {
     fetch(`${searchMovieUrl}&query=${newMovie.replace(" ", "+")}`)
       .then((res) => res.json())
       .then((queryResponse) => {
-        setMovieQueryResponse(queryResponse);
         const movie = queryResponse.results[0];
         const movieId = movie.id;
         const releaseYear = getYearFromDate(movie.release_date);
@@ -135,27 +84,3 @@ const MainContainer = (props) => {
         alert("No movie by that name");
       });
   };
-
-  return (
-    <View style={containerStyle}>
-      {searching && (
-        <>
-          <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
-          <SearchResults queryResponse={movieQueryResponse} />
-        </>
-      )}
-      {!searching && (
-        <>
-          <QueriesContainer queries={isActorMatch ? actors : movies} />
-          <ResultsContainer
-            results={isActorMatch ? movies : actors}
-            isActorMatch={isActorMatch}
-          />
-        </>
-      )}
-      <AddButton onPress={handleAddButtonPress} isActorMatch={isActorMatch} />
-    </View>
-  );
-};
-
-export default MainContainer;
