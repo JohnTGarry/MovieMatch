@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextInput } from "react-native";
+import { debounce } from './ApiUtils';
 
 const SearchBar = (props) => {
-  // const onSubmit = (event) => {
-  //   props.onSubmit(event.nativeEvent.text);
-  // };
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
+  const {onSubmit, onBlur} = props;
+
+  const onSubmitDebounce = useRef(debounce(query => query ? onSubmit(query) : {}));
+  
+  useEffect(() => {
+    onSubmitDebounce.current(value);
+  }, [value]);
 
   return (
     <TextInput
       onChangeText={(text) => {
         setValue(text);
-        props.onSubmit(text)
       }}
-      onSubmitEditing={(event) => onSubmit(event)}
       onFocus={() => setValue("")}
-      onBlur={props.onBlur()}
+      onBlur={onBlur()}
       value={value}
       style={{ color: "white" }}
       autoFocus
