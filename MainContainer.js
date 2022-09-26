@@ -13,7 +13,7 @@ import {
   arrayToArrayOfMovieObjects,
   getCommonElementsAsObjects,
 } from "./ArrayUtil";
-import SearchResults from "./SearchResults";
+import SuggestedResults from "./SuggestedResults";
 
 const API_KEY = process.env.API_KEY;
 const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`;
@@ -99,40 +99,43 @@ const MainContainer = (props) => {
       .then((res) => res.json())
       .then((queryResponse) => {
         setMovieQueryResponse(queryResponse);
-        const movie = queryResponse.results[0];
-        const movieId = movie.id;
-        const releaseYear = getYearFromDate(movie.release_date);
-
-        fetch(`${baseMovieUrl}/${movieId}/credits?api_key=${API_KEY}`)
-          .then((result) => result.json())
-          .then((creditsResponse) => {
-            const cast = creditsResponse.cast;
-            const castImages = [];
-            const castNames = [];
-            cast.forEach((castMember) => {
-              castNames.push(castMember.name);
-              castImages.push(castMember.profile_path);
-            });
-
-            setMovies(
-              movies.concat({
-                key: `${newMovie} (${releaseYear})`,
-              })
-            );
-
-            setActors(
-              Object.keys(actors).length > 0
-                ? getCommonElementsAsObjects(
-                    actors,
-                    arrayToArrayOfActorObjects(castNames, castImages)
-                  )
-                : arrayToArrayOfActorObjects(castNames, castImages)
-            );
-          });
       }) // eslint-disable-next-line no-alert
       .catch((error) => {
         console.error(error);
-        alert("No movie by that name");
+      });
+  };
+
+  const handleSuggestionPress = (movie) => {
+    const movieId = movie.id;
+    const releaseYear = getYearFromDate(movie.release_date);
+
+    fetch(`${baseMovieUrl}/${movieId}/credits?api_key=${API_KEY}`)
+      .then((result) => result.json())
+      .then((creditsResponse) => {
+        const cast = creditsResponse.cast;
+        const castImages = [];
+        const castNames = [];
+        cast.forEach((castMember) => {
+          castNames.push(castMember.name);
+          castImages.push(castMember.profile_path);
+        });
+
+        setMovies(
+          movies.concat({
+            key: `${movie.title} (${releaseYear})`,
+          })
+        );
+
+        setActors(
+          Object.keys(actors).length > 0
+            ? getCommonElementsAsObjects(
+                actors,
+                arrayToArrayOfActorObjects(castNames, castImages)
+              )
+            : arrayToArrayOfActorObjects(castNames, castImages)
+        );
+
+        setSearching(false);
       });
   };
 
@@ -141,7 +144,10 @@ const MainContainer = (props) => {
       {searching && (
         <>
           <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
-          <SearchResults queryResponse={movieQueryResponse} />
+          <SuggestedResults
+            queryResponse={movieQueryResponse}
+            handlePress={handleSuggestionPress}
+          />
         </>
       )}
       {!searching && (
