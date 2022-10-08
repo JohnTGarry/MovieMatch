@@ -28,11 +28,11 @@ const SuggestedResults = (props) => {
         <Pressable
           style={buttonStyle}
           onPress={() => {setSelectedSuggestion(item)}}
-          key={`${item?.title} (${item?.release_date})`}
+          key={item?.gender ? `${item?.name}` : `${item?.title || item?.name} (${item?.release_date || item?.first_air_date})`}
         >
           <Text
             style={textStyle}
-          >{`${item?.title} (${item?.release_date})`}</Text>
+          >{item?.gender ? `${item?.name}` : `${item?.title || item?.name} (${item?.release_date || item?.first_air_date})`}</Text>
         </Pressable>
       )}
     />

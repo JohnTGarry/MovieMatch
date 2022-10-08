@@ -16,6 +16,7 @@ import {
 import SuggestedResults from "./SuggestedResults";
 
 const API_KEY = process.env.API_KEY;
+const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
 const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`;
 const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`;
 const baseMovieUrl = "https://api.themoviedb.org/3/movie";
@@ -32,6 +33,7 @@ const MainContainer = (props) => {
   const [actors, setActors] = useState([]);
   const [movies, setMovies] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [queryResponse, setQueryResponse] = useState({});
   const [movieQueryResponse, setMovieQueryResponse] = useState({});
 
   useEffect(() => {
@@ -45,11 +47,12 @@ const MainContainer = (props) => {
 
   const onNewQuery = (query) => {
     // setSearching(false);
-    if (isActorMatch) {
-      updateActors(query);
-    } else {
-      updateMovies(query);
-    }
+    // if (isActorMatch) {
+    //   updateActors(query);
+    // } else {
+    //   updateMovies(query);
+    // }
+    updateQueries(query);
   };
 
   const handleSearchBarBlur = () => {
@@ -92,6 +95,17 @@ const MainContainer = (props) => {
           });
       }) // eslint-disable-next-line no-alert
       .catch((error) => alert("No actor by that name"));
+  };
+
+  const updateQueries = (newQuery) => {
+    fetch(`${searchUrl}&query=${newQuery.replace(" ", "+")}`)
+      .then((res) => res.json())
+      .then((queryResponse) => {
+        setQueryResponse(queryResponse);
+      }) // eslint-disable-next-line no-alert
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const updateMovies = (newMovie) => {
@@ -145,7 +159,7 @@ const MainContainer = (props) => {
         <>
           <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
           <SuggestedResults
-            queryResponse={movieQueryResponse}
+            queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
           />
         </>
