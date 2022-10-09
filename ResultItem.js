@@ -14,7 +14,7 @@ const buttonStyle = {
 };
 
 const ResultItem = props => {
-  const { name, imagePath, isActorMatch } = props;
+  const { name, imagePath, isActor } = props;
 
   const onPress = () => {
     // Todo: open description
@@ -22,7 +22,7 @@ const ResultItem = props => {
 
   let view;
 
-  if (isActorMatch) {
+  if (isActor) {
     view = <MovieView text={name} />;
   } else {
     view = <ActorView text={name} imagePath={imagePath} />;

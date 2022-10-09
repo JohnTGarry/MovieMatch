@@ -7,7 +7,7 @@ const viewStyle = {
 };
 
 const ResultsContainer = (props) => {
-  const { results, isActorMatch } = props;
+  const { results, isActor } = props;
 
   return (
     <FlatList
@@ -18,7 +18,7 @@ const ResultsContainer = (props) => {
           name={item.key}
           imagePath={item.imagePath}
           year={item.year}
-          isActorMatch={isActorMatch}
+          isActor={isActor}
         />
       )}
     />

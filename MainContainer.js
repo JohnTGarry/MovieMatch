@@ -17,8 +17,6 @@ import SuggestedResults from "./SuggestedResults";
 
 const API_KEY = process.env.API_KEY;
 const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
-const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`;
-const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`;
 const baseMovieUrl = "https://api.themoviedb.org/3/movie";
 const baseActorUrl = "https://api.themoviedb.org/3/person";
 // const actorImageUrl = 'https://api.themoviedb.org/3/person/500/images?api_key=5b6bf11e83f18b3b4b24822437a402ff'
@@ -28,18 +26,17 @@ const containerStyle = {
   backgroundColor: DARK_RED,
 };
 
-const MainContainer = (props) => {
-  const { isActorMatch } = props;
+const MainContainer = () => {
   const [actors, setActors] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [isActor, setIsActor] = useState(false);
   const [searching, setSearching] = useState(false);
   const [queryResponse, setQueryResponse] = useState({});
-  const [movieQueryResponse, setMovieQueryResponse] = useState({});
 
   useEffect(() => {
     setActors([]);
     setMovies([]);
-  }, [isActorMatch]);
+  }, [isActor]);
 
   const handleAddButtonPress = () => {
     setSearching(true);
@@ -47,11 +44,6 @@ const MainContainer = (props) => {
 
   const onNewQuery = (query) => {
     // setSearching(false);
-    // if (isActorMatch) {
-    //   updateActors(query);
-    // } else {
-    //   updateMovies(query);
-    // }
     updateQueries(query);
   };
 
@@ -108,22 +100,16 @@ const MainContainer = (props) => {
       });
   };
 
-  const updateMovies = (newMovie) => {
-    fetch(`${searchMovieUrl}&query=${newMovie.replace(" ", "+")}`)
-      .then((res) => res.json())
-      .then((queryResponse) => {
-        setMovieQueryResponse(queryResponse);
-      }) // eslint-disable-next-line no-alert
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  const handleSuggestionPress = (suggestion) => {
+    const isMediaTypePerson = suggestion?.media_type === "person" 
+    setIsActor(isMediaTypePerson);
 
-  const handleSuggestionPress = (movie) => {
-    const movieId = movie.id;
-    const releaseYear = getYearFromDate(movie.release_date);
+    const suggestionId = suggestion.id;
+    const releaseYear = isMediaTypePerson ? "" : getYearFromDate(suggestion.release_date);
+    const baseUrl = isMediaTypePerson ? baseActorUrl : baseMovieUrl;
+    const creditsRoute = isMediaTypePerson ? "movie_credits" : "credits";
 
-    fetch(`${baseMovieUrl}/${movieId}/credits?api_key=${API_KEY}`)
+    fetch(`${baseUrl}/${suggestionId}/${creditsRoute}?api_key=${API_KEY}`)
       .then((result) => result.json())
       .then((creditsResponse) => {
         const cast = creditsResponse.cast;
@@ -136,7 +122,7 @@ const MainContainer = (props) => {
 
         setMovies(
           movies.concat({
-            key: `${movie.title} (${releaseYear})`,
+            key: `${suggestion.title} (${releaseYear})`,
           })
         );
 
@@ -166,14 +152,14 @@ const MainContainer = (props) => {
       )}
       {!searching && (
         <>
-          <QueriesContainer queries={isActorMatch ? actors : movies} />
+          <QueriesContainer queries={isActor? actors : movies} />
           <ResultsContainer
-            results={isActorMatch ? movies : actors}
-            isActorMatch={isActorMatch}
+            results={isActor ? movies : actors}
+            isActor={isActor}
           />
         </>
       )}
-      <AddButton onPress={handleAddButtonPress} isActorMatch={isActorMatch} />
+      <AddButton onPress={handleAddButtonPress} />
     </View>
   );
 };
