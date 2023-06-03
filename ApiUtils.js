@@ -1,3 +1,6 @@
+// TODO, ADD THIS MESSAGE: This product uses the TMDB API but is not endorsed or certified by TMDB.
+// Also add logo of TMDB which must be smaller than Movie Match logo
+
 // import { getYearFromDate, arrayToArrayOfMovieObjects } from './ArrayUtil';
 
 // const API_KEY = process.env.API_KEY;

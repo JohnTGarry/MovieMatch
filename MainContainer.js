@@ -15,7 +15,7 @@ import {
 } from "./ArrayUtil";
 import SuggestedResults from "./SuggestedResults";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.IMDB_API_KEY;
 const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`;
 const baseMovieUrl = "https://api.themoviedb.org/3/movie";
 const baseActorUrl = "https://api.themoviedb.org/3/person";
