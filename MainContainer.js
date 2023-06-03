@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import QueriesContainer from "./QueriesContainer";
 import ResultsContainer from "./ResultsContainer";
-import AddButton from "./AddButton";
+import Controls from "./Controls";
 import SearchBar from "./SearchBar";
 import { DARK_RED } from "./resources/colours";
 import {
@@ -152,7 +152,7 @@ const MainContainer = () => {
           />
         </>
       )}
-      <AddButton onPress={handleAddButtonPress} />
+      <Controls />
     </View>
   );
 };

@@ -9,10 +9,10 @@ const containerStyle = {
 const buttonStyle = {
   alignItems: "center",
   justifyContent: "center",
-  width: 70,
-  height: 70,
+  width: 50,
+  height: 50,
   borderRadius: 100,
-  backgroundColor: RED,
+  backgroundColor: 'black',
   marginBottom: 5,
 };
 

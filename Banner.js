@@ -3,7 +3,7 @@ import { View, Text, Switch } from 'react-native';
 import { WHITE, RED } from './resources/colours';
 
 const viewStyle = {
-  backgroundColor: RED,
+  backgroundColor: 'black',
   flexDirection: 'row',
 };
 
