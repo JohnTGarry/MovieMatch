@@ -1,19 +1,17 @@
 import React from 'react';
-import { View, Text, Switch } from 'react-native';
+import { View, Text, Switch, Image } from 'react-native';
 import { WHITE, RED } from './resources/colours';
 
 const viewStyle = {
+  paddingTop: 60,
+  paddingLeft: 40,
   backgroundColor: 'black',
   flexDirection: 'row',
 };
 
-const textStyle = {
-  color: `${WHITE}`,
-  textAlign: 'center',
-  margin: 0,
-  fontSize: 40,
-  fontWeight: 'bold',
-  flex: 5,
+const mainLogoStyle = {
+  width: 70,
+  height: 40,
 };
 
 const switchStyle = {
@@ -27,13 +25,9 @@ const Banner = props => {
     onActorMatchChange(isOn);
   };
 
-  const getAppName = () => {
-    return isActorMatch ? 'ActorMatch' : 'MovieMatch';
-  };
-
   return (
     <View style={viewStyle}>
-      <Text style={textStyle}>{getAppName()}</Text>
+      <Image style={mainLogoStyle} source={require('./resources/images/Logo.png')} />
       <Switch
         style={switchStyle}
         disabled={false}
