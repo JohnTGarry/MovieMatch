@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text } from "react-native-web";
-import { Pressable } from "react-native";
+// import { FlatList, Text } from "react-native-web";
+import { FlatList, Text, Pressable } from "react-native";
 
 const SuggestedResults = (props) => {
   const { queryResponse, handlePress } = props;

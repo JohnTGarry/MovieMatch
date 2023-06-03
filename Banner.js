@@ -36,7 +36,7 @@ const Banner = props => {
       <Text style={textStyle}>{getAppName()}</Text>
       <Switch
         style={switchStyle}
-        disabled="false"
+        disabled={false}
         value={isActorMatch}
         onValueChange={onValueChange}
       />
