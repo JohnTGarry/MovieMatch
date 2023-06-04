@@ -42,6 +42,18 @@ const MainContainer = () => {
     setSearching(true);
   };
 
+  const handleRefreshButtonPress = () => {
+    clearAllState();    
+  };
+
+  const clearAllState = () => {
+    setActors([]);
+    setMovies([]);
+    setIsActor(false);
+    setSearching(false);
+    setQueryResponse({});
+  }
+
   const onNewQuery = (query) => {
     // setSearching(false);
     updateQueries(query);
@@ -150,9 +162,9 @@ const MainContainer = () => {
             results={isActor ? movies : actors}
             isActor={isActor}
           />
+          <Controls handleAddButtonPress={handleAddButtonPress} handleRefreshButtonPress={handleRefreshButtonPress} />
         </>
       )}
-      <Controls />
     </View>
   );
 };

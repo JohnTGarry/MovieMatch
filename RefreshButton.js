@@ -13,7 +13,7 @@ const imageStyle = {
   height: 40,
 };
 
-const AddButton = (props) => {
+const RefreshButton = (props) => {
   const handlePress = () => {
     props.onPress();
   };
@@ -21,10 +21,10 @@ const AddButton = (props) => {
   return (
     <View>
       <Pressable style={buttonStyle} onPress={handlePress}>
-        <Image style={imageStyle} source={require('./resources/images/plus-circle.png')}/>
+        <Image style={imageStyle} source={require('./resources/images/refresh.png')}/>
       </Pressable>
     </View>
   );
 };
 
-export default AddButton;
+export default RefreshButton;
