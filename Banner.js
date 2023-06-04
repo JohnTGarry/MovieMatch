@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Image } from 'react-native';
+import React from 'react'
+import { View, Image } from 'react-native'
 
 const viewStyle = {
   paddingTop: 70,
@@ -8,16 +8,24 @@ const viewStyle = {
   paddingRight: 40,
   backgroundColor: 'black',
   flexDirection: 'row',
-};
+}
 
-const mainLogoContainerStyle = {flex: 1, justifyContent: 'flex-end', alignItems: 'flex-start'};
+const mainLogoContainerStyle = {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'flex-start',
+}
 
-const tmdbLogoContainerStyle = {flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'};
+const tmdbLogoContainerStyle = {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'flex-end',
+}
 
 const mainLogoStyle = {
   width: 70,
   height: 40,
-};
+}
 
 const tmdbLogoStyle = {
   width: 50,
@@ -25,18 +33,25 @@ const tmdbLogoStyle = {
   paddingRight: 40,
 }
 
-const Banner = props => {
-
+const Banner = (props) => {
   return (
     <View style={viewStyle}>
       <View style={mainLogoContainerStyle}>
-        <Image style={mainLogoStyle} source={require('./resources/images/Logo.png')} />
+        <Image
+          style={mainLogoStyle}
+          source={require('./resources/images/Logo.png')}
+        />
       </View>
       <View style={tmdbLogoContainerStyle}>
-        <Image style={tmdbLogoStyle} source={require('./resources/images/tmdbLogo.png')} resizeMethod='resize' resizeMode='contain'/>
+        <Image
+          style={tmdbLogoStyle}
+          source={require('./resources/images/tmdbLogo.png')}
+          resizeMethod="resize"
+          resizeMode="contain"
+        />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Banner;
+export default Banner

@@ -1,80 +1,82 @@
 export const getCommonElements = (array1, array2) => {
-  const commonArray = [];
-  array1.forEach(element => {
+  const commonArray = []
+  array1.forEach((element) => {
     if (array2.indexOf(element) !== -1) {
-      commonArray.push(element);
+      commonArray.push(element)
     }
-  });
+  })
 
-  return commonArray;
-};
+  return commonArray
+}
 
 export const getCommonElementsAsObjects = (array1, array2) => {
-  const arrayKeys1 = objectArrayToArrayOfValues(array1);
-  const arrayKeys2 = objectArrayToArrayOfValues(array2);
-  const commonKeys = getCommonElements(arrayKeys1, arrayKeys2);
+  const arrayKeys1 = objectArrayToArrayOfValues(array1)
+  const arrayKeys2 = objectArrayToArrayOfValues(array2)
+  const commonKeys = getCommonElements(arrayKeys1, arrayKeys2)
 
-  let commonArray = [];
-  commonArray = concatObjectsWithKeys(commonKeys, array1, commonArray);
-  commonArray = concatObjectsWithKeys(commonKeys, array2, commonArray);
+  let commonArray = []
+  commonArray = concatObjectsWithKeys(commonKeys, array1, commonArray)
+  commonArray = concatObjectsWithKeys(commonKeys, array2, commonArray)
 
-  return commonArray;
-};
+  return commonArray
+}
 
 export const concatObjectsWithKeys = (keys, objectArray, objectsWithKeys) => {
-  objectArray.forEach(element => {
+  objectArray.forEach((element) => {
     if (keys.indexOf(element.key) !== -1) {
       if (
         objectArrayToArrayOfValues(objectsWithKeys).indexOf(element.key) === -1
       ) {
-        objectsWithKeys.push(element);
+        objectsWithKeys.push(element)
       }
     }
-  });
+  })
 
-  return objectsWithKeys;
-};
+  return objectsWithKeys
+}
 
-export const stringToArray = str => {
-  return str.split(', ');
-};
+export const stringToArray = (str) => {
+  return str.split(', ')
+}
 
 export const arrayToArrayOfActorObjects = (array, images) => {
-  const arrayOfObjects = [];
-  let i = 0;
-  array.forEach(element => {
+  const arrayOfObjects = []
+  let i = 0
+  array.forEach((element) => {
     arrayOfObjects.push({
       key: element,
       imagePath: images[i],
-    });
-    i++;
-  });
+    })
+    i++
+  })
 
-  return arrayOfObjects;
-};
+  return arrayOfObjects
+}
 
-export const arrayToArrayOfMovieObjects = array => {
-  const arrayOfObjects = [];
-  array.forEach(element => {
+export const arrayToArrayOfMovieObjects = (array) => {
+  const arrayOfObjects = []
+  array.forEach((element) => {
     arrayOfObjects.push({
       key: element,
-    });
-  });
+    })
+  })
 
-  return arrayOfObjects;
-};
+  return arrayOfObjects
+}
 
-export const objectArrayToArrayOfValues = array => {
-  const arrayOfValues = [];
-  array.forEach(element => {
-    arrayOfValues.push(element.key);
-  });
+export const objectArrayToArrayOfValues = (array) => {
+  const arrayOfValues = []
+  array.forEach((element) => {
+    arrayOfValues.push(element.key)
+  })
 
-  return arrayOfValues;
-};
+  return arrayOfValues
+}
 
-export const getYearFromDate = date => {
-  const dateMonthYearArray = date.split('-');
+export const getYearFromDate = (date) => {
+  if (!date) return ''
 
-  return dateMonthYearArray[0];
-};
+  const dateMonthYearArray = date.split('-')
+
+  return dateMonthYearArray[0]
+}
