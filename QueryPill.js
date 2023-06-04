@@ -20,13 +20,19 @@ const buttonStyle = {
 
 const QueryPill = (props) => {
   const { name, imagePath } = props
-  let [title, year] = name.split('(');
-  year = year.split(')')[0];
+  console.log(`Name: ${name}`);
+  let title = name;
+  let year;
+  if (name?.contains('(')) {
+    [title, year] = name.split('(');
+    year = year?.split(')')[0];
+  }
+  
 
   return (
     <View style={buttonStyle}>
-      <Text style={{color: WHITE, fontSize: 12, fontWeight: 'bold'}}>{title}</Text>
-      <Text style={{color: LIGHT_GREY, fontSize: 10}}>{year}</Text>
+      <Text style={{color: WHITE, fontSize: 14, fontWeight: 'bold'}}>{title}</Text>
+      {!!year && <Text style={{color: LIGHT_GREY, fontSize: 12}}>{year}</Text>}
     </View>
   )
 }

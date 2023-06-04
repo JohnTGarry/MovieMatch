@@ -12,14 +12,9 @@ const SuggestedResults = (props) => {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 9,
+    paddingBottom: 9,
     paddingLeft: 2,
-  }
-
-  const textStyle = {
-    color: 'black',
-    fontSize: 12,
   }
 
   useEffect(() => {
@@ -30,7 +25,7 @@ const SuggestedResults = (props) => {
 
   return (
     <FlatList
-      keyboardShouldPersistTaps='handled'
+      keyboardShouldPersistTaps="handled"
       data={queryResponse?.results}
       renderItem={({ item }) => (
         <Pressable
@@ -51,14 +46,16 @@ const SuggestedResults = (props) => {
             source={require('./resources/images/plus-circle-black.png')}
           ></Image>
           <View>
-            <Text style={textStyle}>
+            <Text style={{ color: 'black', fontSize: 14 }}>
               {item?.gender ? `${item?.name}` : `${item?.title || item?.name}`}
             </Text>
-            <Text
-              style={{ color: 'black', fontSize: 10 }}
-            >{`${getYearFromDate?.(
-              item?.release_date || item?.first_air_date
-            )}`}</Text>
+            {(item?.release_date || item?.first_air_date) && (
+              <Text
+                style={{ color: 'black', fontSize: 12 }}
+              >{`${getYearFromDate?.(
+                item?.release_date || item?.first_air_date
+              )}`}</Text>
+            )}
           </View>
         </Pressable>
       )}
