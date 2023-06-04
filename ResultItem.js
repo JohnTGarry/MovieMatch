@@ -5,25 +5,26 @@ import MovieView from './MovieView';
 import { VERY_DARK_RED } from './resources/colours';
 
 const buttonStyle = {
-  marginBottom: 1,
-  paddingLeft: 10,
-  paddingBottom: 10,
   flexDirection: 'row',
-  backgroundColor: VERY_DARK_RED,
-  boxShadow: '5px 5px 5px black',
+  backgroundColor: 'grey',
+  borderColor: 'black',
+  borderBottomWidth: 1,
+  paddingTop: 5,
+  paddingBottom: 5,
+  paddingLeft: 20,
 };
 
 const ResultItem = props => {
   const { name, imagePath, isActor } = props;
 
   const onPress = () => {
-    // Todo: open description
+    // Todo: search movies they're in
   };
 
   let view;
 
   if (isActor) {
-    view = <MovieView text={name} />;
+    view = <MovieView text={name} imagePath={imagePath}/>;
   } else {
     view = <ActorView text={name} imagePath={imagePath} />;
   }
