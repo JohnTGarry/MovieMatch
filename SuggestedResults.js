@@ -30,6 +30,7 @@ const SuggestedResults = (props) => {
 
   return (
     <FlatList
+      keyboardShouldPersistTaps='handled'
       data={queryResponse?.results}
       renderItem={({ item }) => (
         <Pressable
