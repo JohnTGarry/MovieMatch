@@ -8,14 +8,6 @@ const bodyStyle = {
   flex: 1,
 };
 
-const bannerStyle = {
-  flex: 0.1,
-};
-
-const sideBySideContainerStyle = {
-  flex: 0.9,
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,13 +25,8 @@ class App extends Component {
   render() {
     return (
       <View style={bodyStyle}>
-        <Banner
-          style={bannerStyle}
-          onActorMatchChange={this.onActorMatchChange}
-          isActorMatch={this.state.isActorMatch}
-        />
+        <Banner />
         <MainContainer
-          style={sideBySideContainerStyle}
           isActorMatch={this.state.isActorMatch}
         />
       </View>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import QueriesContainer from "./QueriesContainer";
 import ResultsContainer from "./ResultsContainer";
 import Controls from "./Controls";
 import SearchBar from "./SearchBar";
-import { DARK_RED } from "./resources/colours";
+import { WHITE } from "./resources/colours";
 import {
   getYearFromDate,
   getCommonElements,
@@ -23,7 +23,7 @@ const actorImageUrl = 'https://api.themoviedb.org/3/person/500/images?api_key=5b
 
 const containerStyle = {
   flex: 10,
-  backgroundColor: DARK_RED,
+  backgroundColor: WHITE,
 };
 
 const MainContainer = () => {
@@ -146,6 +146,10 @@ const MainContainer = () => {
 
   return (
     <View style={containerStyle}>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 3}}></View>
+        <Text style={{flex: 2, fontFamily: 'sans-serif-thin', fontSize: 10}}>This product uses the TMDB API but is not endorsed or certified by TMDB.</Text>
+      </View>
       {searching && (
         <>
           <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
