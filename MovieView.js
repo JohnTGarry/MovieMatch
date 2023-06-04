@@ -8,7 +8,7 @@ const viewStyle = {
 };
 
 const textStyle = {
-  
+  color: WHITE,
 };
 
 const MovieView = props => {

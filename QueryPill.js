@@ -21,10 +21,10 @@ const buttonStyle = {
 const QueryPill = (props) => {
   const { name, imagePath } = props
   console.log(`Name: ${name}`);
-  let title = name;
+  let title = name?.name;
   let year;
-  if (name?.contains('(')) {
-    [title, year] = name.split('(');
+  if (title?.includes('(')) {
+    [title, year] = title.split('(');
     year = year?.split(')')[0];
   }
   
