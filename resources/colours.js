@@ -1,4 +1,7 @@
 export const WHITE = '#F3F3F3';
+export const LIGHT_GREY = '#E8E8E8';
+export const GREY = '#8c8c8c';
+export const DARK_GREY = '#474747';
 export const BLUE = '#266DD3';
 export const DARK = '#344055';
 export const SILVER = '#888098';

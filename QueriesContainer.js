@@ -15,7 +15,7 @@ const QueryContainer = props => {
         horizontal
         data={queries}
         renderItem={({ item }) => (
-          <QueryPill name={item.key} imagePath={item.imagePath} />
+          <QueryPill name={item?.key} imagePath={item?.imagePath} />
         )}
       />
     </View>

@@ -2,13 +2,13 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import ActorView from './ActorView';
 import MovieView from './MovieView';
-import { VERY_DARK_RED } from './resources/colours';
+import { DARK_GREY, GREY, LIGHT_GREY, WHITE } from './resources/colours';
 
 const buttonStyle = {
   flexDirection: 'row',
-  backgroundColor: 'grey',
-  borderColor: 'black',
-  borderBottomWidth: 1,
+  backgroundColor: DARK_GREY,
+  borderColor: GREY,
+  borderTopWidth: 1,
   paddingTop: 5,
   paddingBottom: 5,
   paddingLeft: 20,

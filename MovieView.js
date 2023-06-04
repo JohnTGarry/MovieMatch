@@ -3,13 +3,12 @@ import { View, Text } from 'react-native';
 import { WHITE } from './resources/colours';
 
 const viewStyle = {
-  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const textStyle = {
-  color: WHITE,
-  paddingLeft: 5,
-  marginTop: 7,
+  
 };
 
 const MovieView = props => {

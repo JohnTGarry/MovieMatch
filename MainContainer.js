@@ -60,10 +60,6 @@ const MainContainer = () => {
     updateQueries(query)
   }
 
-  const handleSearchBarBlur = () => {
-    // setSearching(false);
-  }
-
   const updateQueries = (newQuery) => {
     fetch(`${searchUrl}&query=${newQuery.replace(' ', '+')}`)
       .then((res) => res.json())
@@ -102,7 +98,7 @@ const MainContainer = () => {
   const updateMatchingMovies = (newActor, actorImageUrl, creditsResponse) => {
     const creditedMovies = creditsResponse.cast
     const moviesWithYear = []
-    creditedMovies.forEach((movie) => {
+    creditedMovies?.forEach((movie) => {
       const releaseDate = movie.release_date
       const releaseYear = releaseDate ? getYearFromDate(releaseDate) : ''
       moviesWithYear.push(`${movie.title} (${releaseYear})`)
@@ -124,7 +120,7 @@ const MainContainer = () => {
     const cast = creditsResponse.cast
     const castImages = []
     const castNames = []
-    cast.forEach((castMember) => {
+    cast?.forEach((castMember) => {
       castNames.push(castMember.name)
       castImages.push(castMember.profile_path)
     })
@@ -162,7 +158,7 @@ const MainContainer = () => {
       </View>
       {searching && (
         <View style={{ marginLeft: 28, marginRight: 28, gap: 10 }}>
-          <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
+          <SearchBar onSubmit={onNewQuery} />
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
