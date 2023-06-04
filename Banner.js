@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Switch, Image } from 'react-native';
+import { View, Image } from 'react-native';
 
 const viewStyle = {
   paddingTop: 70,

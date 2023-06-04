@@ -151,13 +151,13 @@ const MainContainer = () => {
         <Text style={{flex: 2, fontFamily: 'sans-serif-thin', fontSize: 10}}>This product uses the TMDB API but is not endorsed or certified by TMDB.</Text>
       </View>
       {searching && (
-        <>
+        <View style={{marginLeft: 28, marginRight: 28, gap: 10}}>
           <SearchBar onSubmit={onNewQuery} onBlur={handleSearchBarBlur} />
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
           />
-        </>
+        </View>
       )}
       {!searching && (
         <>
