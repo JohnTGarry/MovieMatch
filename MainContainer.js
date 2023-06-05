@@ -16,7 +16,9 @@ import {
 import SuggestedResults from './SuggestedResults'
 
 const API_KEY = process.env.IMDB_API_KEY
-const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`
+const searchMultiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`
+const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`
+const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`
 const baseMovieUrl = 'https://api.themoviedb.org/3/movie'
 const baseActorUrl = 'https://api.themoviedb.org/3/person'
 const actorImageUrl =
@@ -27,17 +29,23 @@ const containerStyle = {
   backgroundColor: WHITE,
 }
 
+const MatchTypes = {
+  Actor: 'actor',
+  Movie: 'movie',
+  Unset: '',
+}
+
 const MainContainer = () => {
   const [actors, setActors] = useState([])
   const [movies, setMovies] = useState([])
-  const [isActor, setIsActor] = useState(false)
+  const [matchType, setMatchType] = useState(MatchTypes.Unset)
   const [searching, setSearching] = useState(false)
   const [queryResponse, setQueryResponse] = useState({})
 
   useEffect(() => {
     setActors([])
     setMovies([])
-  }, [isActor])
+  }, [matchType])
 
   const handleAddButtonPress = () => {
     setSearching(true)
@@ -50,7 +58,7 @@ const MainContainer = () => {
   const clearAllState = () => {
     setActors([])
     setMovies([])
-    setIsActor(false)
+    setMatchType(MatchTypes.Unset)
     setSearching(false)
     setQueryResponse({})
   }
@@ -60,6 +68,10 @@ const MainContainer = () => {
   }
 
   const updateQueries = (newQuery) => {
+    let searchUrl = searchMultiUrl
+    if (matchType === MatchTypes.Actor) searchUrl = searchActorUrl
+    else if (matchType === MatchTypes.Movie) searchUrl = searchMovieUrl
+
     fetch(`${searchUrl}&query=${newQuery.replace(' ', '+')}`)
       .then((res) => res.json())
       .then((queryResponse) => {
@@ -71,31 +83,32 @@ const MainContainer = () => {
   }
 
   const handleSuggestionPress = (suggestion) => {
-    const isMediaTypePerson = suggestion?.media_type === 'person'
-    setIsActor(isMediaTypePerson)
+    const isMovie = !suggestion?.media_type === 'person' || !suggestion?.gender || !suggestion?.name
+
+    setMatchType(isMovie ? MatchTypes.Movie : MatchTypes.Actor)
 
     const suggestionId = suggestion.id
-    const releaseYear = isMediaTypePerson
-      ? ''
-      : getYearFromDate(suggestion.release_date)
-    const baseUrl = isMediaTypePerson ? baseActorUrl : baseMovieUrl
-    const creditsRoute = isMediaTypePerson ? 'movie_credits' : 'credits'
+    const releaseYear = isMovie
+      ? getYearFromDate(suggestion.release_date)
+      : ''
+    const baseUrl = isMovie ? baseMovieUrl : baseActorUrl
+    const creditsRoute = isMovie ? 'credits' : 'movie_credits'
     // const profilePath = suggestion?.profile_path || "";
 
     fetch(`${baseUrl}/${suggestionId}/${creditsRoute}?api_key=${API_KEY}`)
       .then((result) => result.json())
       .then((creditsResponse) => {
-        if (isMediaTypePerson) {
-          updateMatchingMovies(suggestion, actorImageUrl, creditsResponse)
-        } else {
+        if (isMovie) {
           updateMatchingActors(suggestion, releaseYear, creditsResponse)
+        } else {
+          updateMatchingMovies(suggestion, actorImageUrl, creditsResponse)
         }
         setSearching(false)
       })
   }
 
   const updateMatchingMovies = (newActor, actorImageUrl, creditsResponse) => {
-    console.log(`${newActor} ${actorImageUrl} ${creditsResponse}`);
+    console.log(`${newActor} ${actorImageUrl} ${creditsResponse}`)
     const creditedMovies = creditsResponse.cast
     const moviesWithYear = []
     creditedMovies?.forEach((movie) => {
@@ -167,10 +180,12 @@ const MainContainer = () => {
       )}
       {!searching && (
         <>
-          <QueriesContainer queries={isActor ? actors : movies} />
+          <QueriesContainer
+            queries={matchType === MatchTypes.Actor ? actors : movies}
+          />
           <ResultsContainer
-            results={isActor ? movies : actors}
-            isActor={isActor}
+            results={matchType === MatchTypes.Actor ? movies : actors}
+            matchType={matchType === MatchTypes.Actor}
           />
           <Controls
             handleAddButtonPress={handleAddButtonPress}
