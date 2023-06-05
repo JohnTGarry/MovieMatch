@@ -108,7 +108,6 @@ const MainContainer = () => {
   }
 
   const updateMatchingMovies = (newActor, actorImageUrl, creditsResponse) => {
-    console.log(`${newActor} ${actorImageUrl} ${creditsResponse}`)
     const creditedMovies = creditsResponse.cast
     const moviesWithYear = []
     creditedMovies?.forEach((movie) => {

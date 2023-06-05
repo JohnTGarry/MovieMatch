@@ -23,10 +23,14 @@ const SuggestedResults = (props) => {
     }
   }, [selectedSuggestion])
 
+  const actors = queryResponse?.results?.filter((result) => {
+    return result.known_for_department === 'Acting' || !!result.profile_path
+  })
+
   return (
     <FlatList
       keyboardShouldPersistTaps="handled"
-      data={queryResponse?.results}
+      data={actors}
       renderItem={({ item }) => (
         <Pressable
           style={buttonStyle}
