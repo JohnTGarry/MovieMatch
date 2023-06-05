@@ -23,7 +23,7 @@ const RefreshButton = (props) => {
       <Pressable style={buttonStyle} onPress={handlePress}>
         <Image
           style={imageStyle}
-          source={require('./resources/images/refresh.png')}
+          source={require('./resources/images/erase.png')}
         />
       </Pressable>
     </View>
