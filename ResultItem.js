@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import ActorView from './ActorView';
 import MovieView from './MovieView';
 import { DARK_GREY, GREY, LIGHT_GREY, WHITE } from './resources/colours';
@@ -30,9 +30,9 @@ const ResultItem = props => {
   }
 
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress}>
+    <Pressable style={buttonStyle} onPress={onPress}>
       {view}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

@@ -2,20 +2,28 @@ import React, { useEffect, useState } from 'react'
 // import { FlatList, Text } from "react-native-web";
 import { FlatList, Text, Pressable, Image, View } from 'react-native'
 import { getYearFromDate } from './ArrayUtil'
+import { LIGHT_GREY } from './resources/colours'
 
 const SuggestedResults = (props) => {
   const { queryResponse, handlePress } = props
   const [selectedSuggestion, setSelectedSuggestion] = useState({})
 
   const buttonStyle = {
-    background: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    paddingTop: 9,
-    paddingBottom: 9,
+    paddingTop: 20,
+    paddingBottom: 20,
     paddingLeft: 2,
   }
+
+  const imageStyle = {
+    borderRadius: 5,
+    width: 40,
+    height: 40,
+  }
+
+  const baseImageUrl = 'https://image.tmdb.org/t/p/original'
 
   useEffect(() => {
     if (Object.keys(selectedSuggestion).length > 0) {
@@ -23,41 +31,59 @@ const SuggestedResults = (props) => {
     }
   }, [selectedSuggestion])
 
-  const actors = queryResponse?.results?.filter((result) => {
-    return result.known_for_department === 'Acting' || !!result.profile_path
+  const filteredResults = queryResponse?.results?.filter((result) => {
+    return !!result.profile_path || !!result.poster_path
   })
 
   return (
     <FlatList
       keyboardShouldPersistTaps="handled"
-      data={actors}
+      data={filteredResults}
       renderItem={({ item }) => (
         <Pressable
-          style={buttonStyle}
+          style={({ pressed }) => [
+            {
+              background: pressed ? LIGHT_GREY : 'transparent',
+            },
+            buttonStyle,
+          ]}
           onPress={() => {
             setSelectedSuggestion(item)
           }}
           key={
             item?.gender
-              ? `${item?.name}`
-              : `${item?.title || item?.name} (${
-                  item?.release_date || item?.first_air_date
+              ? `${item.name}`
+              : `${item.title || item.name} (${
+                  item.release_date || item.first_air_date
                 })`
           }
         >
           <Image
             style={{ width: 20, height: 20 }}
             source={require('./resources/images/plus-circle-black.png')}
-          ></Image>
+          />
+          {item.profile_path || item.poster_path ? (
+            <Image
+              style={imageStyle}
+              source={{
+                uri: `${baseImageUrl}${item.profile_path || item.poster_path}`,
+              }}
+            />
+          ) : (
+            <Image
+              style={imageStyle}
+              source={require('./resources/images/icons8-name-96.png')}
+            />
+          )}
           <View>
             <Text style={{ color: 'black', fontSize: 14 }}>
-              {item?.gender ? `${item?.name}` : `${item?.title || item?.name}`}
+              {item.gender ? `${item.name}` : `${item.title || item.name}`}
             </Text>
-            {(item?.release_date || item?.first_air_date) && (
+            {(item.release_date || item.first_air_date) && (
               <Text
                 style={{ color: 'black', fontSize: 12 }}
               >{`${getYearFromDate?.(
-                item?.release_date || item?.first_air_date
+                item.release_date || item.first_air_date
               )}`}</Text>
             )}
           </View>
