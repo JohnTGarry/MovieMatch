@@ -100,29 +100,35 @@ const MainContainer = () => {
     const releaseYear = isMovie ? getYearFromDate(suggestion.release_date) : ''
     const baseUrl = isMovie ? baseMovieUrl : baseActorUrl
     const creditsRoute = isMovie ? 'credits' : 'movie_credits'
-    // const profilePath = suggestion?.profile_path || "";
+    const imagePath = suggestion?.poster_path || suggestion?.profile_path || ''
 
     fetch(`${baseUrl}/${suggestionId}/${creditsRoute}?api_key=${API_KEY}`)
       .then((result) => result.json())
       .then((creditsResponse) => {
         if (isMovie) {
-          updateMatchingActors(suggestion, releaseYear, creditsResponse)
+          updateMatchingActors(
+            suggestion,
+            releaseYear,
+            imagePath,
+            creditsResponse
+          )
         } else {
-          updateMatchingMovies(suggestion, actorImageUrl, creditsResponse)
+          updateMatchingMovies2(suggestion, imagePath, creditsResponse)
         }
         setSearching(false)
       })
   }
 
-  const updateMatchingMovies = (newActor, actorImageUrl, creditsResponse) => {
+  const updateMatchingMovies = (newActor, imagePath, creditsResponse) => {
     const creditedMovies = creditsResponse.cast
     const moviesWithYear = []
     creditedMovies?.forEach((movie) => {
       const releaseDate = movie.release_date
       const releaseYear = releaseDate ? getYearFromDate(releaseDate) : ''
       moviesWithYear.push(`${movie.title} (${releaseYear})`)
+      
     })
-    setActors(actors.concat({ key: newActor, imagePath: actorImageUrl }))
+    setActors(actors.concat({ key: newActor, imagePath: imagePath }))
     setMovies(
       Object.keys(movies).length > 0
         ? arrayToArrayOfMovieObjects(
@@ -135,7 +141,44 @@ const MainContainer = () => {
     )
   }
 
-  const updateMatchingActors = (newMovie, releaseYear, creditsResponse) => {
+  const updateMatchingMovies2 = (
+    newActor,
+    imagePath,
+    creditsResponse
+  ) => {
+    const creditedMovies = creditsResponse.cast
+    const movieImages = []
+    const moviesWithYear = []
+    creditedMovies?.forEach((movie) => {
+      const releaseDate = movie.release_date
+      const releaseYear = releaseDate ? getYearFromDate(releaseDate) : ''
+      moviesWithYear.push(`${movie.title} (${releaseYear})`)
+      movieImages.push(movie.poster_path)
+    })
+
+    setActors(
+      actors.concat({
+        key: `${newActor.name}`,
+        imagePath: imagePath,
+      })
+    )
+
+    setMovies(
+      Object.keys(movies).length > 0
+        ? getCommonElementsAsObjects(
+            movies,
+            arrayToArrayOfActorObjects(moviesWithYear, movieImages)
+          )
+        : arrayToArrayOfActorObjects(moviesWithYear, movieImages)
+    )
+  }
+
+  const updateMatchingActors = (
+    newMovie,
+    releaseYear,
+    imagePath,
+    creditsResponse
+  ) => {
     const cast = creditsResponse.cast
     const castImages = []
     const castNames = []
@@ -147,6 +190,7 @@ const MainContainer = () => {
     setMovies(
       movies.concat({
         key: `${newMovie.title} (${releaseYear})`,
+        imagePath: imagePath,
       })
     )
 

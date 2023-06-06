@@ -6,9 +6,6 @@ import { DARK_GREY, GREY, LIGHT_GREY, WHITE } from './resources/colours';
 
 const buttonStyle = {
   flexDirection: 'row',
-  backgroundColor: DARK_GREY,
-  borderColor: GREY,
-  borderTopWidth: 1,
   paddingTop: 5,
   paddingBottom: 5,
   paddingLeft: 20,

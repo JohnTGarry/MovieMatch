@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Pressable, Image } from 'react-native'
+import { LIGHT_GREY } from './resources/colours'
 
 const buttonStyle = {
   padding: 10,
