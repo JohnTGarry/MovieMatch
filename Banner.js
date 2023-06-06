@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Image } from 'react-native'
 
 const viewStyle = {
-  paddingTop: 70,
+  // paddingTop: 70,
   paddingBottom: 10,
   paddingLeft: 40,
   paddingRight: 40,

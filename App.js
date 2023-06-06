@@ -1,35 +1,23 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
+import React from 'react'
 import Banner from './Banner'
 import MainContainer from './MainContainer'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { WHITE } from './resources/colours'
+import { StatusBar } from 'react-native'
 
 const bodyStyle = {
   flexDirection: 'column',
   flex: 1,
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isActorMatch: false,
-    }
-  }
-
-  onActorMatchChange = (isActorMatch) => {
-    this.setState({
-      isActorMatch: isActorMatch,
-    })
-  }
-
-  render() {
-    return (
-      <View style={bodyStyle}>
-        <Banner />
-        <MainContainer isActorMatch={this.state.isActorMatch} />
-      </View>
-    )
-  }
+const App = () => {
+  return (
+    <SafeAreaView style={bodyStyle}>
+      <StatusBar barStyle="light-content" style={{ backgroundColor: 'black' }} />
+      <Banner />
+      <MainContainer />
+    </SafeAreaView>
+  )
 }
 
 export default App
