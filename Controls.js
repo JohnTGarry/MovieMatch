@@ -4,7 +4,6 @@ import AddButton from './AddButton'
 import RefreshButton from './RefreshButton'
 
 const containerStyle = {
-  backgroundColor: 'black',
   height: 70,
   flexDirection: 'row',
   justifyContent: 'center',
@@ -12,18 +11,23 @@ const containerStyle = {
 }
 
 const Controls = (props) => {
-  const { handleAddButtonPress, handleRefreshButtonPress } = props
+  const { handleAddButtonPress, handleRefreshButtonPress, isFirstSearch } =
+    props
 
   return (
     <View style={containerStyle}>
       <View style={{ flex: 1 }}></View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <AddButton onPress={handleAddButtonPress} />
+      <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+        <AddButton
+          onPress={handleAddButtonPress}
+          isFirstSearch={isFirstSearch}
+        />
       </View>
+
       <View
         style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}
       >
-        <RefreshButton onPress={handleRefreshButtonPress} />
+        {!isFirstSearch && <RefreshButton onPress={handleRefreshButtonPress} />}
       </View>
     </View>
   )

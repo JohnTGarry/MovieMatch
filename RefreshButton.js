@@ -2,15 +2,16 @@ import React from 'react'
 import { View, Pressable, Image } from 'react-native'
 
 const buttonStyle = {
-  backgroundColor: 'black',
   padding: 10,
   paddingLeft: 30,
   paddingRight: 30,
+  borderRadius: 5,
+  height: 55,
 }
 
 const imageStyle = {
-  width: 40,
-  height: 40,
+  width: 30,
+  height: 30,
 }
 
 const RefreshButton = (props) => {
@@ -20,7 +21,13 @@ const RefreshButton = (props) => {
 
   return (
     <View>
-      <Pressable style={buttonStyle} onPress={handlePress}>
+      <Pressable
+        style={({ pressed }) => [
+          { background: pressed ? LIGHT_GREY : 'black' },
+          buttonStyle,
+        ]}
+        onPress={handlePress}
+      >
         <Image
           style={imageStyle}
           source={require('./resources/images/erase.png')}

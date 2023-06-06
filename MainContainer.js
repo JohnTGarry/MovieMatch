@@ -29,6 +29,12 @@ const containerStyle = {
   backgroundColor: WHITE,
 }
 
+const tipStyle = {
+  paddingTop: 20,
+  paddingLeft: 40,
+  paddingRight: 40,
+}
+
 const MatchTypes = {
   Actor: 'actor',
   Movie: 'movie',
@@ -83,14 +89,15 @@ const MainContainer = () => {
   }
 
   const handleSuggestionPress = (suggestion) => {
-    const isMovie = !suggestion?.media_type === 'person' || !suggestion?.gender || !suggestion?.name
+    const isMovie =
+      !suggestion?.media_type === 'person' ||
+      !suggestion?.gender ||
+      !suggestion?.name
 
     setMatchType(isMovie ? MatchTypes.Movie : MatchTypes.Actor)
 
     const suggestionId = suggestion.id
-    const releaseYear = isMovie
-      ? getYearFromDate(suggestion.release_date)
-      : ''
+    const releaseYear = isMovie ? getYearFromDate(suggestion.release_date) : ''
     const baseUrl = isMovie ? baseMovieUrl : baseActorUrl
     const creditsRoute = isMovie ? 'credits' : 'movie_credits'
     // const profilePath = suggestion?.profile_path || "";
@@ -189,6 +196,7 @@ const MainContainer = () => {
           <Controls
             handleAddButtonPress={handleAddButtonPress}
             handleRefreshButtonPress={handleRefreshButtonPress}
+            isFirstSearch={matchType === MatchTypes.Unset}
           />
         </>
       )}
