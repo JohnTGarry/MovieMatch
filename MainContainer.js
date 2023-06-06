@@ -192,6 +192,7 @@ const MainContainer = () => {
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
+            previousSearches={matchType === MatchTypes.Actor ? actors?.map(a=>a.key) : movies?.map(m=>m.key)}
           />
         </View>
       )}

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 // import { FlatList, Text } from "react-native-web";
 import { FlatList, Text, Pressable, Image, View } from 'react-native'
 import { getYearFromDate } from './ArrayUtil'
-import { LIGHT_GREY, WHITE } from './resources/colours'
+import { GREY, WHITE } from './resources/colours'
 
 const SuggestedResults = (props) => {
-  const { queryResponse, handlePress } = props
+  const { queryResponse, handlePress, previousSearches } = props
   const [selectedSuggestion, setSelectedSuggestion] = useState({})
 
   const buttonStyle = {
@@ -32,7 +32,16 @@ const SuggestedResults = (props) => {
   }, [selectedSuggestion])
 
   const filteredResults = queryResponse?.results?.filter((result) => {
-    return !!result.profile_path || !!result.poster_path
+    const key = result?.gender
+      ? `${result.name}`
+      : `${result.title || result.name} (${
+          result.release_date || result.first_air_date
+        })`
+
+    return (
+      (!!result.profile_path || !!result.poster_path) &&
+      !previousSearches.includes(key)
+    )
   })
 
   return (
@@ -43,7 +52,7 @@ const SuggestedResults = (props) => {
         <Pressable
           style={({ pressed }) => [
             {
-              background: pressed ? LIGHT_GREY : 'transparent',
+              backgroundColor: pressed ? GREY : 'transparent',
             },
             buttonStyle,
           ]}
