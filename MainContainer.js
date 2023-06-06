@@ -4,13 +4,10 @@ import QueriesContainer from './QueriesContainer'
 import ResultsContainer from './ResultsContainer'
 import Controls from './Controls'
 import SearchBar from './SearchBar'
-import { WHITE } from './resources/colours'
+import { VERY_DARK_GREY } from './resources/colours'
 import {
   getYearFromDate,
-  getCommonElements,
-  objectArrayToArrayOfValues,
   arrayToArrayOfActorObjects,
-  arrayToArrayOfMovieObjects,
   getCommonElementsAsObjects,
 } from './ArrayUtil'
 import SuggestedResults from './SuggestedResults'
@@ -21,18 +18,10 @@ const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_
 const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`
 const baseMovieUrl = 'https://api.themoviedb.org/3/movie'
 const baseActorUrl = 'https://api.themoviedb.org/3/person'
-const actorImageUrl =
-  'https://api.themoviedb.org/3/person/500/images?api_key=5b6bf11e83f18b3b4b24822437a402ff'
 
 const containerStyle = {
   flex: 10,
-  backgroundColor: WHITE,
-}
-
-const tipStyle = {
-  paddingTop: 20,
-  paddingLeft: 40,
-  paddingRight: 40,
+  backgroundColor: VERY_DARK_GREY,
 }
 
 const MatchTypes = {
@@ -113,35 +102,13 @@ const MainContainer = () => {
             creditsResponse
           )
         } else {
-          updateMatchingMovies2(suggestion, imagePath, creditsResponse)
+          updateMatchingMovies(suggestion, imagePath, creditsResponse)
         }
         setSearching(false)
       })
   }
 
-  const updateMatchingMovies = (newActor, imagePath, creditsResponse) => {
-    const creditedMovies = creditsResponse.cast
-    const moviesWithYear = []
-    creditedMovies?.forEach((movie) => {
-      const releaseDate = movie.release_date
-      const releaseYear = releaseDate ? getYearFromDate(releaseDate) : ''
-      moviesWithYear.push(`${movie.title} (${releaseYear})`)
-      
-    })
-    setActors(actors.concat({ key: newActor, imagePath: imagePath }))
-    setMovies(
-      Object.keys(movies).length > 0
-        ? arrayToArrayOfMovieObjects(
-            getCommonElements(
-              objectArrayToArrayOfValues(movies),
-              moviesWithYear
-            )
-          )
-        : arrayToArrayOfMovieObjects(moviesWithYear)
-    )
-  }
-
-  const updateMatchingMovies2 = (
+  const updateMatchingMovies = (
     newActor,
     imagePath,
     creditsResponse

@@ -17,7 +17,7 @@ const imageStyle = {
 }
 
 const nameStyle = {
-  color: 'black',
+  color: WHITE,
 }
 
 const ActorView = (props) => {

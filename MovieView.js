@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import { WHITE } from './resources/colours'
 
 const viewStyle = {
   justifyContent: 'center',
@@ -7,7 +8,7 @@ const viewStyle = {
 }
 
 const textStyle = {
-  color: 'black',
+  color: WHITE,
 }
 
 const baseImageUrl = 'https://image.tmdb.org/t/p/original'

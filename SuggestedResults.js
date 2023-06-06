@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import { FlatList, Text } from "react-native-web";
 import { FlatList, Text, Pressable, Image, View } from 'react-native'
 import { getYearFromDate } from './ArrayUtil'
-import { LIGHT_GREY } from './resources/colours'
+import { LIGHT_GREY, WHITE } from './resources/colours'
 
 const SuggestedResults = (props) => {
   const { queryResponse, handlePress } = props
@@ -60,7 +60,7 @@ const SuggestedResults = (props) => {
         >
           <Image
             style={{ width: 20, height: 20 }}
-            source={require('./resources/images/plus-circle-black.png')}
+            source={require('./resources/images/plus-circle.png')}
           />
           {item.profile_path || item.poster_path ? (
             <Image
@@ -76,12 +76,12 @@ const SuggestedResults = (props) => {
             />
           )}
           <View>
-            <Text style={{ color: 'black', fontSize: 14 }}>
+            <Text style={{ color: WHITE, fontSize: 14 }}>
               {item.gender ? `${item.name}` : `${item.title || item.name}`}
             </Text>
             {(item.release_date || item.first_air_date) && (
               <Text
-                style={{ color: 'black', fontSize: 12 }}
+                style={{ color: WHITE, fontSize: 12 }}
               >{`${getYearFromDate?.(
                 item.release_date || item.first_air_date
               )}`}</Text>

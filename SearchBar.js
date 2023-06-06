@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Image, Pressable, TextInput, View } from 'react-native'
 import { debounce } from './ApiUtils'
+import { DARK_GREY, WHITE } from './resources/colours'
 
 const SearchBar = (props) => {
   const containerStyle = {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: 'rgb(200, 200, 200)',
+    backgroundColor: DARK_GREY,
     borderRadius: 100,
+    paddingTop: 2,
+    paddingRight: 2,
     paddingLeft: 2,
   }
 
   const [value, setValue] = useState('')
-  const { onSubmit, onBlur } = props
+  const { onSubmit } = props
 
   const onSubmitDebounce = useRef(
     debounce((query) => (query ? onSubmit(query) : {}))
@@ -28,7 +31,7 @@ const SearchBar = (props) => {
       <View style={{ flex: 1 }}>
         <Image
           style={{ width: 20, height: 20 }}
-          source={require('./resources/images/search.png')}
+          source={require('./resources/images/search-white.png')}
         ></Image>
       </View>
       <View style={{ flex: 10 }}>
@@ -38,7 +41,7 @@ const SearchBar = (props) => {
           }}
           onFocus={() => setValue('')}
           value={value}
-          style={{ color: 'black' }}
+          style={{ color: WHITE }}
           autoFocus
         />
       </View>
@@ -46,7 +49,7 @@ const SearchBar = (props) => {
         <Pressable style={{paddingLeft: 3, paddingRight: 3}} onPress={() => setValue('')}>
           <Image
             style={{ width: 20, height: 20 }}
-            source={require('./resources/images/circle-x.png')}
+            source={require('./resources/images/circle-x-white.png')}
           ></Image>
         </Pressable>
       </View>
