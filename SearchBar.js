@@ -16,7 +16,7 @@ const SearchBar = (props) => {
   }
 
   const [value, setValue] = useState('')
-  const { onSubmit } = props
+  const { onSubmit, startedTyping } = props
 
   const onSubmitDebounce = useRef(
     debounce((query) => (query ? onSubmit(query) : {}))
@@ -24,6 +24,7 @@ const SearchBar = (props) => {
 
   useEffect(() => {
     onSubmitDebounce.current(value)
+    !!value && startedTyping()
   }, [value])
 
   return (

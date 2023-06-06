@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-// import { FlatList, Text } from "react-native-web";
 import { FlatList, Text, Pressable, Image, View } from 'react-native'
 import { getYearFromDate } from './ArrayUtil'
-import { GREY, WHITE } from './resources/colours'
+import { DARK_GREY, GREY, WHITE } from './resources/colours'
+import Skeleton from './Skeleton'
 
 const SuggestedResults = (props) => {
-  const { queryResponse, handlePress, previousSearches } = props
+  const { queryResponse, handlePress, previousSearches, skeletonActive } = props
   const [selectedSuggestion, setSelectedSuggestion] = useState({})
 
   const buttonStyle = {
@@ -44,7 +44,16 @@ const SuggestedResults = (props) => {
     )
   })
 
-  return (
+  const skeletonArray = new Array(15).fill(0)
+
+  return skeletonActive ? (
+    <FlatList
+      data={skeletonArray}
+      renderItem={({ item }) => (
+        <Skeleton />
+      )}
+    ></FlatList>
+  ) : (
     <FlatList
       keyboardShouldPersistTaps="handled"
       data={filteredResults}

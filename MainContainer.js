@@ -36,6 +36,7 @@ const MainContainer = () => {
   const [matchType, setMatchType] = useState(MatchTypes.Unset)
   const [searching, setSearching] = useState(false)
   const [queryResponse, setQueryResponse] = useState({})
+  const [skeletonActive, setSkeletonActive] = useState(false)
 
   useEffect(() => {
     setActors([])
@@ -56,6 +57,11 @@ const MainContainer = () => {
     setMatchType(MatchTypes.Unset)
     setSearching(false)
     setQueryResponse({})
+    setSkeletonActive(false)
+  }
+
+  const beginSkeleton = () => {
+    setSkeletonActive(true)
   }
 
   const onNewQuery = (query) => {
@@ -71,6 +77,7 @@ const MainContainer = () => {
       .then((res) => res.json())
       .then((queryResponse) => {
         setQueryResponse(queryResponse)
+        setSkeletonActive(false)
       }) // eslint-disable-next-line no-alert
       .catch((error) => {
         console.error(error)
@@ -188,11 +195,12 @@ const MainContainer = () => {
       </View>
       {searching && (
         <View style={{ marginLeft: 28, marginRight: 28, gap: 10 }}>
-          <SearchBar onSubmit={onNewQuery} />
+          <SearchBar onSubmit={onNewQuery} startedTyping={beginSkeleton}/>
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
             previousSearches={matchType === MatchTypes.Actor ? actors?.map(a=>a.key) : movies?.map(m=>m.key)}
+            skeletonActive={skeletonActive}
           />
         </View>
       )}
