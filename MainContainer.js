@@ -63,6 +63,10 @@ const MainContainer = () => {
   const beginSkeleton = () => {
     setSkeletonActive(true)
   }
+  
+  const clearButtonPressed = () => {
+    setSearching(false)
+  }
 
   const onNewQuery = (query) => {
     updateQueries(query)
@@ -195,7 +199,7 @@ const MainContainer = () => {
       </View>
       {searching && (
         <View style={{ marginLeft: 28, marginRight: 28, gap: 10 }}>
-          <SearchBar onSubmit={onNewQuery} startedTyping={beginSkeleton}/>
+          <SearchBar onSubmit={onNewQuery} startedTyping={beginSkeleton} clearButtonPressed={clearButtonPressed}/>
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}

@@ -16,7 +16,7 @@ const SearchBar = (props) => {
   }
 
   const [value, setValue] = useState('')
-  const { onSubmit, startedTyping } = props
+  const { onSubmit, startedTyping, clearButtonPressed } = props
 
   const onSubmitDebounce = useRef(
     debounce((query) => (query ? onSubmit(query) : {}))
@@ -46,10 +46,23 @@ const SearchBar = (props) => {
           autoFocus
         />
       </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
-        <Pressable style={{paddingLeft: 3, paddingRight: 1}} onPress={() => setValue('')}>
+      <View
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}
+      >
+        <Pressable
+          style={{
+            paddingTop: 2,
+            paddingBottom: 2,
+            paddingLeft: 3,
+            paddingRight: 1,
+          }}
+          onPress={() => {
+            setValue('')
+            clearButtonPressed()
+          }}
+        >
           <Image
-            style={{ width: 25, height: 25 }}
+            style={{ width: 28, height: 28 }}
             source={require('./resources/images/circle-x-white.png')}
           ></Image>
         </Pressable>
