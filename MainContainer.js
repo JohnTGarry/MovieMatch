@@ -4,7 +4,7 @@ import QueriesContainer from './QueriesContainer'
 import ResultsContainer from './ResultsContainer'
 import Controls from './Controls'
 import SearchBar from './SearchBar'
-import { VERY_DARK_GREY } from './resources/colours'
+import { GREY, VERY_DARK_GREY } from './resources/colours'
 import {
   getYearFromDate,
   arrayToArrayOfActorObjects,
@@ -63,7 +63,7 @@ const MainContainer = () => {
   const beginSkeleton = () => {
     setSkeletonActive(true)
   }
-  
+
   const clearButtonPressed = () => {
     setSearching(false)
   }
@@ -119,11 +119,7 @@ const MainContainer = () => {
       })
   }
 
-  const updateMatchingMovies = (
-    newActor,
-    imagePath,
-    creditsResponse
-  ) => {
+  const updateMatchingMovies = (newActor, imagePath, creditsResponse) => {
     const creditedMovies = creditsResponse.cast
     const movieImages = []
     const moviesWithYear = []
@@ -191,28 +187,38 @@ const MainContainer = () => {
             flex: 2,
             fontFamily: 'sans-serif-thin',
             fontSize: 10,
+            color: GREY,
           }}
         >
           This product uses the TMDB API but is not endorsed or certified by
           TMDB.
         </Text>
       </View>
+      <QueriesContainer
+        queries={matchType === MatchTypes.Actor ? actors : movies}
+      />
+
       {searching && (
         <View style={{ marginLeft: 28, marginRight: 28, gap: 10 }}>
-          <SearchBar onSubmit={onNewQuery} startedTyping={beginSkeleton} clearButtonPressed={clearButtonPressed}/>
+          <SearchBar
+            onSubmit={onNewQuery}
+            startedTyping={beginSkeleton}
+            clearButtonPressed={clearButtonPressed}
+          />
           <SuggestedResults
             queryResponse={queryResponse}
             handlePress={handleSuggestionPress}
-            previousSearches={matchType === MatchTypes.Actor ? actors?.map(a=>a.key) : movies?.map(m=>m.key)}
+            previousSearches={
+              matchType === MatchTypes.Actor
+                ? actors?.map((a) => a.key)
+                : movies?.map((m) => m.key)
+            }
             skeletonActive={skeletonActive}
           />
         </View>
       )}
       {!searching && (
         <>
-          <QueriesContainer
-            queries={matchType === MatchTypes.Actor ? actors : movies}
-          />
           <ResultsContainer
             results={matchType === MatchTypes.Actor ? movies : actors}
             matchType={matchType === MatchTypes.Actor}
