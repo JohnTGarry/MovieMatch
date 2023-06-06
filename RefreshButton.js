@@ -3,7 +3,8 @@ import { View, Pressable, Image } from 'react-native'
 import { LIGHT_GREY } from './resources/colours'
 
 const buttonStyle = {
-  padding: 10,
+  paddingTop: 12,
+  paddingBottom: 10,
   paddingLeft: 30,
   paddingRight: 30,
   borderRadius: 5,
@@ -24,7 +25,7 @@ const RefreshButton = (props) => {
     <View>
       <Pressable
         style={({ pressed }) => [
-          { background: pressed ? LIGHT_GREY : 'black' },
+          { backgroundColor: pressed ? LIGHT_GREY : 'transparent' },
           buttonStyle,
         ]}
         onPress={handlePress}

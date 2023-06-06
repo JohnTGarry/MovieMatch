@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { LIGHT_GREY, WHITE } from './resources/colours';
+import { LIGHT_GREY, RED, WHITE } from './resources/colours';
 
 const buttonStyle = {
   borderRadius: 5,
-  backgroundColor: 'rgb(180,50,50)',
+  backgroundColor: RED,
   marginTop: 5,
   marginBottom: 10,
   marginRight: 5,
@@ -19,7 +19,7 @@ const buttonStyle = {
 }
 
 const QueryPill = (props) => {
-  const { name, imagePath } = props
+  const { name } = props
   let mainText = name?.name || name || '?';
   let year;
   if (mainText?.includes('(')) {

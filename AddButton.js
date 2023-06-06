@@ -28,7 +28,7 @@ const AddButton = (props) => {
     <View>
       <Pressable
         style={({ pressed }) => [
-          { background: pressed ? LIGHT_GREY : RED },
+          { backgroundColor: pressed ? LIGHT_GREY : RED },
           buttonStyle,
         ]}
         onPress={handlePress}

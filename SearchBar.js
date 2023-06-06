@@ -10,7 +10,7 @@ const SearchBar = (props) => {
     gap: 10,
     backgroundColor: DARK_GREY,
     borderRadius: 100,
-    paddingTop: 2,
+    paddingTop: 0,
     paddingRight: 2,
     paddingLeft: 2,
   }
@@ -30,7 +30,7 @@ const SearchBar = (props) => {
     <View style={containerStyle}>
       <View style={{ flex: 1 }}>
         <Image
-          style={{ width: 20, height: 20 }}
+          style={{ width: 25, height: 25 }}
           source={require('./resources/images/search-white.png')}
         ></Image>
       </View>
@@ -46,9 +46,9 @@ const SearchBar = (props) => {
         />
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
-        <Pressable style={{paddingLeft: 3, paddingRight: 3}} onPress={() => setValue('')}>
+        <Pressable style={{paddingLeft: 3, paddingRight: 1}} onPress={() => setValue('')}>
           <Image
-            style={{ width: 20, height: 20 }}
+            style={{ width: 25, height: 25 }}
             source={require('./resources/images/circle-x-white.png')}
           ></Image>
         </Pressable>
