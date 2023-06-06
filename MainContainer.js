@@ -24,7 +24,7 @@ const containerStyle = {
   backgroundColor: VERY_DARK_GREY,
 }
 
-const MatchTypes = {
+export const MatchTypes = {
   Actor: 'actor',
   Movie: 'movie',
   Unset: '',
@@ -204,6 +204,7 @@ const MainContainer = () => {
             onSubmit={onNewQuery}
             startedTyping={beginSkeleton}
             clearButtonPressed={clearButtonPressed}
+            matchType={matchType}
           />
           <SuggestedResults
             queryResponse={queryResponse}

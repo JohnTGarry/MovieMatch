@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Image, Pressable, TextInput, View } from 'react-native'
 import { debounce } from './ApiUtils'
-import { DARK_GREY, WHITE } from './resources/colours'
+import { DARK_GREY, LIGHT_GREY, WHITE } from './resources/colours'
+import { MatchTypes } from './MainContainer';
 
 const SearchBar = (props) => {
   const containerStyle = {
@@ -16,11 +17,22 @@ const SearchBar = (props) => {
   }
 
   const [value, setValue] = useState('')
-  const { onSubmit, startedTyping, clearButtonPressed } = props
+  const { onSubmit, startedTyping, clearButtonPressed, matchType } = props
 
   const onSubmitDebounce = useRef(
     debounce((query) => (query ? onSubmit(query) : {}))
   )
+
+  const getPlaceholder = () => {
+    switch (matchType) {
+      case MatchTypes.Actor:
+        return 'Actor Name'
+      case MatchTypes.Movie:
+        return 'Movie Title'
+      default:
+        return 'Actor Name or Movie Title';
+    }
+  }
 
   useEffect(() => {
     onSubmitDebounce.current(value)
@@ -42,6 +54,8 @@ const SearchBar = (props) => {
           }}
           onFocus={() => setValue('')}
           value={value}
+          placeholder={getPlaceholder()}
+          placeholderTextColor={LIGHT_GREY}
           style={{ color: WHITE }}
           autoFocus
         />
