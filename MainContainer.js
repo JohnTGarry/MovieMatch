@@ -11,8 +11,10 @@ import {
   getCommonElementsAsObjects,
 } from './ArrayUtil'
 import SuggestedResults from './SuggestedResults'
+import Constants from 'expo-constants'
 
-const API_KEY = process.env.IMDB_API_KEY
+const API_KEY =
+  process.env.IMDB_API_KEY || Constants.expoConfig.extra.IMDB_API_KEY
 const searchMultiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}`
 const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`
 const searchActorUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}`
@@ -62,6 +64,10 @@ const MainContainer = () => {
 
   const beginSkeleton = () => {
     setSkeletonActive(true)
+  }
+
+  const stopSkeleton = () => {
+    setSkeletonActive(false)
   }
 
   const clearButtonPressed = () => {
@@ -203,6 +209,7 @@ const MainContainer = () => {
           <SearchBar
             onSubmit={onNewQuery}
             startedTyping={beginSkeleton}
+            inputEmpty={stopSkeleton}
             clearButtonPressed={clearButtonPressed}
             matchType={matchType}
           />

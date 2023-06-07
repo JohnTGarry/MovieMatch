@@ -49,9 +49,7 @@ const SuggestedResults = (props) => {
   return skeletonActive ? (
     <FlatList
       data={skeletonArray}
-      renderItem={({ item }) => (
-        <Skeleton />
-      )}
+      renderItem={({ item }) => <Skeleton />}
     ></FlatList>
   ) : (
     <FlatList

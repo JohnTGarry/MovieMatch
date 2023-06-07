@@ -1,21 +1,24 @@
 import React from 'react'
 import Banner from './Banner'
 import MainContainer from './MainContainer'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { StatusBar } from 'react-native'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 const bodyStyle = {
+  backgroundColor: '#000000',
   flexDirection: 'column',
   flex: 1,
 }
 
 const App = () => {
   return (
-    <SafeAreaView style={bodyStyle}>
-      <StatusBar barStyle="light-content" style={{ backgroundColor: 'black' }} />
-      <Banner />
-      <MainContainer />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={bodyStyle}>
+        <StatusBar style="light" />
+        <Banner />
+        <MainContainer />
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
 
