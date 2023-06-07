@@ -101,6 +101,7 @@ const MainContainer = () => {
       !suggestion?.name
 
     setMatchType(isMovie ? MatchTypes.Movie : MatchTypes.Actor)
+    setQueryResponse({})
 
     const suggestionId = suggestion.id
     const releaseYear = isMovie ? getYearFromDate(suggestion.release_date) : ''
