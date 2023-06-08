@@ -40,10 +40,10 @@ const MainContainer = () => {
   const [queryResponse, setQueryResponse] = useState({})
   const [skeletonActive, setSkeletonActive] = useState(false)
 
-  useEffect(() => {
-    setActors([])
-    setMovies([])
-  }, [matchType])
+  // useEffect(() => {
+  //   setActors([])
+  //   setMovies([])
+  // }, [matchType])
 
   const handleAddButtonPress = () => {
     setSearching(true)
@@ -100,89 +100,93 @@ const MainContainer = () => {
       !suggestion?.gender ||
       !suggestion?.name
 
-    setMatchType(isMovie ? MatchTypes.Movie : MatchTypes.Actor)
+    if (isMovie) {
+      const currentMovies = movies.concat({
+        key: `${suggestion?.title} (${
+          suggestion?.release_date
+            ? getYearFromDate(suggestion?.release_date)
+            : ''
+        })`,
+        imagePath: `${suggestion?.poster_path}`,
+        id: suggestion?.id,
+      })
+      setMatchType(MatchTypes.Movie)
+      setMovies(currentMovies)
+      updateMatching(currentMovies, baseMovieUrl, 'credits')
+    } else {
+      const currentActors = actors.concat({
+        key: suggestion?.name,
+        imagePath: suggestion?.profile_path,
+        id: suggestion?.id,
+      })
+      setMatchType(MatchTypes.Actor)
+      setActors(currentActors)
+      updateMatching(currentActors, baseActorUrl, 'movie_credits')
+    }
     setQueryResponse({})
-
-    const suggestionId = suggestion.id
-    const releaseYear = isMovie ? getYearFromDate(suggestion.release_date) : ''
-    const baseUrl = isMovie ? baseMovieUrl : baseActorUrl
-    const creditsRoute = isMovie ? 'credits' : 'movie_credits'
-    const imagePath = suggestion?.poster_path || suggestion?.profile_path || ''
-
-    fetch(`${baseUrl}/${suggestionId}/${creditsRoute}?api_key=${API_KEY}`)
-      .then((result) => result.json())
-      .then((creditsResponse) => {
-        if (isMovie) {
-          updateMatchingActors(
-            suggestion,
-            releaseYear,
-            imagePath,
-            creditsResponse
-          )
-        } else {
-          updateMatchingMovies(suggestion, imagePath, creditsResponse)
-        }
-        setSearching(false)
-      })
+    setSearching(false)
   }
 
-  const updateMatchingMovies = (newActor, imagePath, creditsResponse) => {
-    const creditedMovies = creditsResponse.cast
-    const movieImages = []
-    const moviesWithYear = []
-    creditedMovies?.forEach((movie) => {
-      const releaseDate = movie.release_date
-      const releaseYear = releaseDate ? getYearFromDate(releaseDate) : ''
-      moviesWithYear.push(`${movie.title} (${releaseYear})`)
-      movieImages.push(movie.poster_path)
-    })
-
-    setActors(
-      actors.concat({
-        key: `${newActor.name}`,
-        imagePath: imagePath,
+  const removeQueryPill = (id) => {
+    let queries = matchType === MatchTypes.Actor ? actors : movies
+    if (queries?.length > 0) {
+      queries = queries?.filter((item) => {
+        return item.id !== id
       })
-    )
-
-    setMovies(
-      Object.keys(movies).length > 0
-        ? getCommonElementsAsObjects(
-            movies,
-            arrayToArrayOfActorObjects(moviesWithYear, movieImages)
-          )
-        : arrayToArrayOfActorObjects(moviesWithYear, movieImages)
-    )
+    }
+    if (matchType === MatchTypes.Actor) {
+      setActors(queries)
+      updateMatching(queries, baseActorUrl, 'movie_credits')
+    } else {
+      setMovies(queries)
+      updateMatching(queries, baseMovieUrl, 'credits')
+    }
+    queries?.length === 0 && setMatchType(MatchTypes.Unset)
   }
 
-  const updateMatchingActors = (
-    newMovie,
-    releaseYear,
-    imagePath,
-    creditsResponse
-  ) => {
-    const cast = creditsResponse.cast
-    const castImages = []
-    const castNames = []
-    cast?.forEach((castMember) => {
-      castNames.push(castMember.name)
-      castImages.push(castMember.profile_path)
+  // If entering 2 actors and want to match their movies: matchers = actors, matchings = movies
+  const updateMatching = (currentMatchers, baseMatcherUrl, creditsRoute) => {
+    let matching = []
+    const promises = []
+    const matcherMatchingMap = []
+
+    currentMatchers.forEach((matcher) => {
+      promises.push(
+        fetch(
+          `${baseMatcherUrl}/${matcher.id}/${creditsRoute}?api_key=${API_KEY}`
+        )
+          .then((result) => result.json())
+          .then((creditsResponse) => {
+            const currentMatchings = []
+            creditsResponse?.cast?.forEach((matching) => {
+              const releaseDate = matching?.release_date
+              const releaseYear = releaseDate
+                ? getYearFromDate(releaseDate)
+                : ''
+              let key = matching.title || matching.name
+              key = releaseYear ? `${key} (${releaseYear})` : key
+
+              currentMatchings.push({
+                key: key,
+                imagePath: matching.poster_path || matching.profile_path,
+                id: matching.id,
+              })
+            })
+            matcherMatchingMap.push({ matcher, currentMatchings })
+          })
+      )
     })
 
-    setMovies(
-      movies.concat({
-        key: `${newMovie.title} (${releaseYear})`,
-        imagePath: imagePath,
+    Promise.all(promises).then(() => {
+      matcherMatchingMap.forEach((matcher) => {
+        const currentMatchings = matcher.currentMatchings
+        matching =
+          matching.length > 0
+            ? getCommonElementsAsObjects(matching, currentMatchings)
+            : currentMatchings
       })
-    )
-
-    setActors(
-      Object.keys(actors).length > 0
-        ? getCommonElementsAsObjects(
-            actors,
-            arrayToArrayOfActorObjects(castNames, castImages)
-          )
-        : arrayToArrayOfActorObjects(castNames, castImages)
-    )
+      setMovies(matching)
+    })
   }
 
   return (
@@ -203,6 +207,7 @@ const MainContainer = () => {
       </View>
       <QueriesContainer
         queries={matchType === MatchTypes.Actor ? actors : movies}
+        handleQueryPress={removeQueryPill}
       />
 
       {searching && (

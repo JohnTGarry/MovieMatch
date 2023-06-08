@@ -39,7 +39,22 @@ export const stringToArray = (str) => {
   return str.split(', ')
 }
 
-export const arrayToArrayOfActorObjects = (array, images) => {
+export const arrayToArrayOfObjects = (array, images, id) => {
+  const arrayOfObjects = []
+  let i = 0
+  array.forEach((element) => {
+    arrayOfObjects.push({
+      key: element,
+      imagePath: images[i],
+      id: id,
+    })
+    i++
+  })
+
+  return arrayOfObjects
+}
+
+export const arrayToArrayOfActorObjects = (array, images, id) => {
   const arrayOfObjects = []
   let i = 0
   array.forEach((element) => {
@@ -48,17 +63,6 @@ export const arrayToArrayOfActorObjects = (array, images) => {
       imagePath: images[i],
     })
     i++
-  })
-
-  return arrayOfObjects
-}
-
-export const arrayToArrayOfMovieObjects = (array) => {
-  const arrayOfObjects = []
-  array.forEach((element) => {
-    arrayOfObjects.push({
-      key: element,
-    })
   })
 
   return arrayOfObjects

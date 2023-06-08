@@ -1,25 +1,25 @@
-import React from 'react';
-import { View, FlatList } from 'react-native';
-import QueryPill from './QueryPill';
+import React from 'react'
+import { View, FlatList } from 'react-native'
+import QueryPill from './QueryPill'
 
-const containerStyle = {
-  // flex: 1,
-};
-
-const QueryContainer = props => {
-  const { queries } = props;
+const QueryContainer = (props) => {
+  const { queries, handleQueryPress } = props
 
   return (
-    <View style={containerStyle}>
+    <View>
       <FlatList
         horizontal
         data={queries}
         renderItem={({ item }) => (
-          <QueryPill name={item?.key} imagePath={item?.imagePath} />
+          <QueryPill
+            name={item.key}
+            id={item.id}
+            handleQueryPress={handleQueryPress}
+          />
         )}
       />
     </View>
-  );
-};
+  )
+}
 
-export default QueryContainer;
+export default QueryContainer

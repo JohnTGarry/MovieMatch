@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Text, Pressable, Image, View } from 'react-native'
 import { getYearFromDate } from './ArrayUtil'
-import { DARK_GREY, GREY, WHITE } from './resources/colours'
+import { GREY, WHITE } from './resources/colours'
 import Skeleton from './Skeleton'
 
 const SuggestedResults = (props) => {
