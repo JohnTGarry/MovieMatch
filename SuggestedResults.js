@@ -27,7 +27,7 @@ const SuggestedResults = (props) => {
   const filteredResults = queryResponse?.results?.filter((result) => {
     return (
       (!!result.profile_path || !!result.poster_path) &&
-      !previousSearches.includes(result.id)
+      !previousSearches?.includes(result.id)
     )
   })
 

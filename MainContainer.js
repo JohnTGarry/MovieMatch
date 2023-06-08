@@ -5,11 +5,7 @@ import ResultsContainer from './ResultsContainer'
 import Controls from './Controls'
 import SearchBar from './SearchBar'
 import { GREY, VERY_DARK_GREY } from './resources/colours'
-import {
-  getYearFromDate,
-  arrayToArrayOfActorObjects,
-  getCommonElementsAsObjects,
-} from './ArrayUtil'
+import { getYearFromDate, getCommonElementsAsObjects } from './ArrayUtil'
 import SuggestedResults from './SuggestedResults'
 import Constants from 'expo-constants'
 
@@ -39,6 +35,12 @@ const MainContainer = () => {
   const [searching, setSearching] = useState(false)
   const [queryResponse, setQueryResponse] = useState({})
   const [skeletonActive, setSkeletonActive] = useState(false)
+  const [newQuery, setNewQuery] = useState('')
+  const [triggerQuery, setTriggerQuery] = useState(false)
+
+  useEffect(() => {
+    newQuery && updateQueries(newQuery)
+  }, [triggerQuery])
 
   const handleAddButtonPress = () => {
     setSearching(true)
@@ -55,6 +57,7 @@ const MainContainer = () => {
     setSearching(false)
     setQueryResponse({})
     setSkeletonActive(false)
+    setNewQuery('')
   }
 
   const beginSkeleton = () => {
@@ -70,7 +73,8 @@ const MainContainer = () => {
   }
 
   const onNewQuery = (query) => {
-    updateQueries(query)
+    setNewQuery(query)
+    setTriggerQuery((triggerQuery) => !triggerQuery)
   }
 
   const updateQueries = (newQuery) => {
@@ -225,7 +229,9 @@ const MainContainer = () => {
             previousSearches={
               matchType === MatchTypes.Actor
                 ? actors?.map((a) => a.id)
-                : movies?.map((m) => m.id)
+                : matchType === MatchTypes.Movie
+                ? movies?.map((m) => m.id)
+                : []
             }
             skeletonActive={skeletonActive}
           />
