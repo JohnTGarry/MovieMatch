@@ -136,7 +136,10 @@ const MainContainer = () => {
       setMovies(queries)
       updateMatching(queries, false)
     }
-    queries?.length === 0 && setMatchType(MatchTypes.Unset)
+    if (queries?.length === 0) {
+      clearAllState()
+      setSearching(true)
+    }
   }
 
   // If entering 2 actors and want to match their movies: matchers = actors, matchings = movies

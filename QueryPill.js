@@ -49,7 +49,7 @@ const QueryPill = (props) => {
         )}
       </View>
       <Image
-        style={{ height: 15, width: 15 }}
+        style={{ height: 16, width: 16 }}
         source={require('./resources/images/x-white.png')}
       />
     </Pressable>
