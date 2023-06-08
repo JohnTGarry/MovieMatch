@@ -1,17 +1,12 @@
-import React from "react";
-import { FlatList } from "react-native";
-import ResultItem from "./ResultItem";
-
-const viewStyle = {
-  // flex: 10,
-};
+import React from 'react'
+import { FlatList } from 'react-native'
+import ResultItem from './ResultItem'
 
 const ResultsContainer = (props) => {
-  const { results, isActor } = props;
+  const { results, isActor } = props
 
   return (
     <FlatList
-      style={viewStyle}
       data={results}
       renderItem={({ item }) => (
         <ResultItem
@@ -22,7 +17,7 @@ const ResultsContainer = (props) => {
         />
       )}
     />
-  );
-};
+  )
+}
 
-export default ResultsContainer;
+export default ResultsContainer

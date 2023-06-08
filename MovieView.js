@@ -26,7 +26,7 @@ const MovieView = (props) => {
       ) : (
         <Image
           style={imageStyle}
-          source={require('./resources/images/icons8-name-96.png')}
+          source={require('./resources/images/film-projector.png')}
         />
       )}
       <Text style={textStyle}>{text}</Text>
