@@ -40,11 +40,6 @@ const MainContainer = () => {
   const [queryResponse, setQueryResponse] = useState({})
   const [skeletonActive, setSkeletonActive] = useState(false)
 
-  // useEffect(() => {
-  //   setActors([])
-  //   setMovies([])
-  // }, [matchType])
-
   const handleAddButtonPress = () => {
     setSearching(true)
   }
@@ -112,7 +107,7 @@ const MainContainer = () => {
       })
       setMatchType(MatchTypes.Movie)
       setMovies(currentMovies)
-      updateMatching(currentMovies, baseMovieUrl, 'credits')
+      updateMatching(currentMovies, false)
     } else {
       const currentActors = actors.concat({
         key: suggestion?.name,
@@ -121,7 +116,7 @@ const MainContainer = () => {
       })
       setMatchType(MatchTypes.Actor)
       setActors(currentActors)
-      updateMatching(currentActors, baseActorUrl, 'movie_credits')
+      updateMatching(currentActors, true)
     }
     setQueryResponse({})
     setSearching(false)
@@ -136,19 +131,21 @@ const MainContainer = () => {
     }
     if (matchType === MatchTypes.Actor) {
       setActors(queries)
-      updateMatching(queries, baseActorUrl, 'movie_credits')
+      updateMatching(queries, true)
     } else {
       setMovies(queries)
-      updateMatching(queries, baseMovieUrl, 'credits')
+      updateMatching(queries, false)
     }
     queries?.length === 0 && setMatchType(MatchTypes.Unset)
   }
 
   // If entering 2 actors and want to match their movies: matchers = actors, matchings = movies
-  const updateMatching = (currentMatchers, baseMatcherUrl, creditsRoute) => {
+  const updateMatching = (currentMatchers, matchingMovies) => {
     let matching = []
     const promises = []
     const matcherMatchingMap = []
+    const baseMatcherUrl = matchingMovies ? baseActorUrl : baseMovieUrl
+    const creditsRoute = matchingMovies ? 'movie_credits' : 'credits'
 
     currentMatchers.forEach((matcher) => {
       promises.push(
@@ -185,7 +182,7 @@ const MainContainer = () => {
             ? getCommonElementsAsObjects(matching, currentMatchings)
             : currentMatchings
       })
-      setMovies(matching)
+      matchingMovies ? setMovies(matching) : setActors(matching)
     })
   }
 
@@ -224,8 +221,8 @@ const MainContainer = () => {
             handlePress={handleSuggestionPress}
             previousSearches={
               matchType === MatchTypes.Actor
-                ? actors?.map((a) => a.key)
-                : movies?.map((m) => m.key)
+                ? actors?.map((a) => a.id)
+                : movies?.map((m) => m.id)
             }
             skeletonActive={skeletonActive}
           />

@@ -6,7 +6,6 @@ import Skeleton from './Skeleton'
 
 const SuggestedResults = (props) => {
   const { queryResponse, handlePress, previousSearches, skeletonActive } = props
-  const [selectedSuggestion, setSelectedSuggestion] = useState({})
 
   const buttonStyle = {
     flexDirection: 'row',
@@ -25,22 +24,10 @@ const SuggestedResults = (props) => {
 
   const baseImageUrl = 'https://image.tmdb.org/t/p/original'
 
-  useEffect(() => {
-    if (Object.keys(selectedSuggestion).length > 0) {
-      handlePress(selectedSuggestion)
-    }
-  }, [selectedSuggestion])
-
   const filteredResults = queryResponse?.results?.filter((result) => {
-    const key = result?.gender
-      ? `${result.name}`
-      : `${result.title || result.name} (${
-          result.release_date || result.first_air_date
-        })`
-
     return (
       (!!result.profile_path || !!result.poster_path) &&
-      !previousSearches.includes(key)
+      !previousSearches.includes(result.id)
     )
   })
 
@@ -63,8 +50,8 @@ const SuggestedResults = (props) => {
             },
             buttonStyle,
           ]}
-          onPress={() => {
-            setSelectedSuggestion(item)
+          onPress={(e) => {
+            handlePress(item)
           }}
           key={
             item?.gender
